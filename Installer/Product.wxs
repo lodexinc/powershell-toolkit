@@ -9,6 +9,7 @@
     <?define BUILD_NUMBER = "3.1.0.622"?>
   <!--<?endif?>-->
   <?define ProductName = "Pure Storage PowerShell Toolkit 3.1.0.622"?>
+  <?define OldProductName = "Pure Storage PowerShell Toolkit"?>
   <?define UpgradeCode = "A67E7ADE-B611-4BE6-BB96-B34A42265B4F"?>
   <?define ToolkitTopRight = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\logo_top_right.bmp"?>
   <?define ToolkitBackground = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\logo_black_bg.bmp"?>
@@ -23,8 +24,8 @@
     <!--afterInstallValidate"-->
     <MajorUpgrade Schedule="afterInstallExecute" 
                   AllowSameVersionUpgrades="no"
-                  Disallow="yes" DisallowUpgradeErrorMessage="Please remove the previous version of [ProductName] using Programs and Features."
-                  AllowDowngrades="no"  DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
+                  Disallow="yes" DisallowUpgradeErrorMessage="Please remove the previous version of [OldProductName] using Programs and Features."
+                  AllowDowngrades="no"  DowngradeErrorMessage="A later version of [OldProductName] is already installed. Setup will now exit." />
     <WixVariable Id="WixUIBannerBmp" Value="$(var.ToolkitTopRight)" />
     <WixVariable Id="WixUIDialogBmp" Value="$(var.ToolkitBackground)" />
     <!-- check if PowerShell 3.0+ is installed -->
