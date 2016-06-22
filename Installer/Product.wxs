@@ -14,8 +14,8 @@
   <?define ToolkitTopRight = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\logo_top_right.bmp"?>
   <?define ToolkitBackground = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\logo_black_bg.bmp"?>
   <?define ToolkitIcon = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\icon.ico"?>
-  <?define PSD1 = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\PowerShell-Toolkit.psd1"?>
-  <?define PSM1 = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\PowerShell-Toolkit.psm1"?>
+  <?define PSD1 = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\PureStoragePowerShellToolkit.psd1"?>
+  <?define PSM1 = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\PureStoragePowerShellToolkit.psm1"?>
   <?define RELNOTES = "C:\Users\Barkz\Box Sync\github\PowerShell-Toolkit\Installer\Release Notes.txt"?>
   <?define ModuleDirectory = "Toolkit"?>
   <?define ProductVersion="3.1.0.622"?>
