@@ -28,7 +28,7 @@
 	RootModule = 'PowerShell-Toolkit.psm1'
 	
 	# Version number of this module; major.minor[.build[.revision]]
-	ModuleVersion = '3.1.0.531'
+	ModuleVersion = '3.1.0.622'
 	
 	# ID used to uniquely identify this module
 	GUID = '80ed4b74-cd66-4428-b4dd-db839991c2d6'
@@ -43,7 +43,7 @@
 	Copyright = '(c) 2016 Pure Storage, Inc. All rights reserved.'
 	
 	# Description of the functionality provided by this module
-	Description = 'Pure Storage PowerShell Toolkit 3.x built on the PureStorge PowerShell SDK 1.5.4.0.'
+	Description = 'Pure Storage PowerShell Toolkit 3.x built on the PureStorge PowerShell SDK 1.5.x.'
 		
 	# Minimum version of the Windows PowerShell engine required by this module
 	PowerShellVersion = '3.0'
