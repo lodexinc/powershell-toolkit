@@ -422,7 +422,7 @@ function Test-WindowsBestPractices()
 	Write-Output '============================================================'
 	Write-Output 'Pure Storage Windows Server Best Practice Analyzer'
 	Write-Output '============================================================'
-
+	
 	<#TODO -- Add to output
 		VERSION #
 		VERSION # output to screeen
@@ -446,16 +446,16 @@ function Test-WindowsBestPractices()
 	#>
 	
 	Write-Output ''
-	Write-Output '=============================='
+	Write-Output '==================================='
 	Write-Output 'Host Information'
-	Write-Output '=============================='
+	Write-Output '==================================='
 	Get-SilComputer
 	#Get-SilWindowsUpdate | Format-Table -AutoSize
 	
 	Write-Output ''
-	Write-Output '=============================='
+	Write-Output '==================================='
 	Write-Output 'Multipath-IO Verificaton'
-	Write-Output '=============================='
+	Write-Output '==================================='
 	if (!(Get-WindowsFeature -Name 'Multipath-IO').InstalledStatus -eq 'Installed')
 	{
 		Write-Output 'PASS: Multipath I/O is installed.'
@@ -467,13 +467,14 @@ function Test-WindowsBestPractices()
 	}
 	
 	Write-Output ''
-	Write-Output '=============================='
+	Write-Output '==================================='
 	Write-Output 'MPIO Setting Verification'
-	Write-Output '=============================='
+	Write-Output '==================================='
 	
+	$PassFail = 0
 	ForEach ($DSM in Get-MSDSMSupportedHW)
 	{
-		if (!(($DSM).VendorId -eq 'PURE' -and ($DSM).ProductId -eq 'FlashArray'))
+		if (($DSM.VendorId -eq 'PURE' -and $DSM.ProductId -eq 'FlashArray'))
 		{
 			Write-Output 'PASS: Microsoft Device Specific Module (MSDSM) is configured for Pure Storage FlashArray.'
 			
@@ -483,15 +484,18 @@ function Test-WindowsBestPractices()
 			{
 				#30
 				Write-Output 'PASS: MPIO PDORemovePeriod passes Windows Server Best Practice check.'
+				$PassFail = -1
 			}
 			else
 			{
 				Write-Warning 'FAIL: MPIO PDORemovePeriod does NOT pass Windows Server Best Practice check.'
+				$PassFail = + 1
 			}
 			if (($MPIO[7] -replace " ", "") -ceq 'UseCustomPathRecoveryTime:Enabled')
 			{
 				#Enabled
 				Write-Output 'PASS: MPIO UseCustomPathRecoveryTime passes Windows Server Best Practice check.'
+				$PassFail = -1
 			}
 			else
 			{
@@ -501,19 +505,23 @@ function Test-WindowsBestPractices()
 			{
 				#20
 				Write-Output 'PASS: MPIO CustomPathRecoveryTime passes Windows Server Best Practice check.'
+				$PassFail = -1
 			}
 			else
 			{
 				Write-Warning 'FAIL: MPIO CustomPathRecoveryTime does NOT pass Windows Server Best Practice check.'
+				$PassFail = + 1
 			}
 			if (($MPIO[9] -replace " ", "") -ceq 'DiskTimeoutValue:60')
 			{
 				#60
 				Write-Output 'PASS: MPIO DiskTimeoutValue passes Windows Server Best Practice check.'
+				$PassFail = -1
 			}
 			else
 			{
 				Write-Warning 'FAIL: MPIO PDiskTimeoutValue does NOT pass Windows Server Best Practice check.'
+				$PassFail = + 1
 			}
 			
     <#RESEARCH -- Support for Windows Server 2008 R2. 
@@ -548,17 +556,13 @@ function Test-WindowsBestPractices()
 			{
 				Write-Warning "RECOMMENDATION: Remove the sample DSM entry (VendorId=$DSM.VendorId and ProductId=$DSM.ProductId)"
 			}
-			else
-			{
-				Write-Warning 'Microsoft Device Specific Module (MSDSM) is NOT configured for Pure Storage FlashArray.'
-			}
 		}
 	}
 	
 	Write-Output ''
-	Write-Output '=============================='
+	Write-Output '==================================='
 	Write-Output 'TRIM/UNMAP Verification'
-	Write-Output '=============================='
+	Write-Output '==================================='
 	if (!(Get-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\FileSystem' -Name 'DisableDeleteNotification') -eq 0)
 	{
 		Write-Output 'PASS: Delete Notification Enabled'
@@ -568,10 +572,29 @@ function Test-WindowsBestPractices()
 		Write-Warning 'Delete Notification Disabled. Pure Storage Best Practice is to enable delete notifications.'
 	}
 	
+	if ($PassFail -ge 0)
+	{
+		Write-Output ''
+		Write-Output '==================================='
+		Write-Output 'Set Windows Server Best Practices'
+		Write-Output '==================================='
+		Write-Output 'There are one or more recommended best practices that are not correct.'
+		
+		$retval = Read-Host -Prompt "Would you like to apply the recommended Windows Server best practices for Pure Storage?`n`nWARNING: This requires a reboot of the host.`n`n[Y/N]"
+		if ($retval.ToUpper() -eq 'Y')
+		{
+			Set-MPIOSetting -NewPDORemovePeriod 60 -NewDiskTimeout 60 -CustomPathRecovery Enabled -NewPathRecoveryInterval 20
+		}
+		else
+		{
+			Write-Warning -Message 'You have chosen not to apply Windows Server best practices for Pure Storage. You will be required to make the changes manually or re-run the Test-WindowsBestPractices cmdlet.'
+		}
+	}
+	
 	#TODO: iSCSI
 	#TODO: Create Analysis report using New-Report cmdlets
 }
-#>
+#> 
 
 # 
 # UNDER DEVELOPMENT -- Optimize-Unmap

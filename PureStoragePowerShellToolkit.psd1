@@ -20,12 +20,12 @@
 	business interruption, loss of business information, or other pecuniary loss), even if 
 	such person has been advised of the possibility of such damages.
 	===========================================================================
-#>
+#> 
 
 @{
 	
 	# Script module or binary module file associated with this manifest.
-	RootModule = 'PowerShell-Toolkit.psm1'
+	RootModule = 'PureStoragePowerShellToolkit.psm1'
 	
 	# Version number of this module; major.minor[.build[.revision]]
 	ModuleVersion = '3.1.0.622'
